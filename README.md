@@ -5,11 +5,12 @@ This package exposes some internal packages from
 
 # How?
 
-We first copy desired packages (currently these are `bug`, `event`, `jsonrpc2`, `jsonrpc2_v2` and `xcontext`) into this
-repository, and perform the following replacements across all the files:
+We first copy desired packages (currently these are `bug`, `event`, `gocommand`, `jsonrpc2`, `jsonrpc2_v2` and
+`xcontext`) into this repository, and perform the following replacements across all the files:
 
 - `golang.org/x/tools/internal/bug` with `github.com/peske/x-tools-internal/bug`
 - `golang.org/x/tools/internal/event` with `github.com/peske/x-tools-internal/event`
+- `golang.org/x/tools/internal/gocommand` with `github.com/peske/x-tools-internal/gocommand`
 - `golang.org/x/tools/internal/jsonrpc2_v2` with `github.com/peske/x-tools-internal/jsonrpc2_v2`
 - `golang.org/x/tools/internal/jsonrpc2` with `github.com/peske/x-tools-internal/jsonrpc2`
 - `golang.org/x/tools/internal/xcontext` with `github.com/peske/x-tools-internal/xcontext`
