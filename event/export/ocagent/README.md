@@ -37,10 +37,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/peske/x-tools-internal/event"
-	"github.com/peske/x-tools-internal/event/export"
-	"github.com/peske/x-tools-internal/event/export/metric"
-	"github.com/peske/x-tools-internal/event/export/ocagent"
+	"golang.org/x/tools/internal/event"
+	"golang.org/x/tools/internal/event/export"
+	"golang.org/x/tools/internal/event/export/metric"
+	"golang.org/x/tools/internal/event/export/ocagent"
 )
 
 type testExporter struct {

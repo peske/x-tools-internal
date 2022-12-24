@@ -25,7 +25,11 @@ var Packages = []string{
 	"xcontext",
 }
 
-func Replace(content string) string {
+func Replace(fp, content string) string {
+	if strings.HasSuffix(strings.ToLower(fp), ".md") {
+		// We don't want to replace in Markdown files
+		return content
+	}
 	for _, p := range Packages {
 		content = strings.Replace(content,
 			"\"golang.org/x/tools/internal/"+p,
@@ -46,7 +50,7 @@ func EnsureDir(dir string) {
 	}
 }
 
-func CopyFile(src, dst string, replaceFn func(string) string) error {
+func CopyFile(src, dst string, replaceFn func(string, string) string) error {
 	var err error
 	var srcinfo os.FileInfo
 
@@ -59,7 +63,7 @@ func CopyFile(src, dst string, replaceFn func(string) string) error {
 		replaceFn = Replace
 	}
 
-	str := replaceFn(string(c))
+	str := replaceFn(dst, string(c))
 
 	err = os.WriteFile(dst, []byte(str), 0700)
 	if err != nil {
@@ -72,7 +76,7 @@ func CopyFile(src, dst string, replaceFn func(string) string) error {
 	return os.Chmod(dst, srcinfo.Mode())
 }
 
-func CopyDir(src string, dst string, replaceFn func(string) string) error {
+func CopyDir(src string, dst string, replaceFn func(string, string) string) error {
 	var err error
 	var fds []os.DirEntry
 	var srcinfo os.FileInfo
