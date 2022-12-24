@@ -16,9 +16,11 @@ import (
 	"testing"
 
 	"github.com/peske/x-tools-internal/diff/difftest"
+	"github.com/peske/x-tools-internal/testenv"
 )
 
 func TestVerifyUnified(t *testing.T) {
+	testenv.NeedsTool(t, "diff")
 	for _, test := range difftest.TestCases {
 		t.Run(test.Name, func(t *testing.T) {
 			if test.NoDiff {

@@ -13,10 +13,11 @@ import (
 	"time"
 
 	jsonrpc2 "github.com/peske/x-tools-internal/jsonrpc2_v2"
+	"github.com/peske/x-tools-internal/stack/stacktest"
 )
 
 func TestIdleTimeout(t *testing.T) {
-	//stacktest.NoLeak(t)
+	stacktest.NoLeak(t)
 
 	// Use a panicking time.AfterFunc instead of context.WithTimeout so that we
 	// get a goroutine dump on failure. We expect the test to take on the order of
@@ -155,7 +156,7 @@ func (fakeHandler) Handle(ctx context.Context, req *jsonrpc2.Request) (interface
 }
 
 func TestServe(t *testing.T) {
-	//stacktest.NoLeak(t)
+	stacktest.NoLeak(t)
 	ctx := context.Background()
 
 	tests := []struct {

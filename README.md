@@ -14,9 +14,13 @@ Here's how we've done this:
 - After that we've adjusted `import` statements by replacing `golang.org/x/tools/internal/<package_name>` with
   `github.com/peske/x-tools-internal/<package_name>` for all the imported packages.
 
-Finally, we also remove `golang.org/x/tools/internal/stack/stacktest` dependency. Luckily, this dependency is only used
-in a few test files, and it was easy to remove: simply remove it from `import`, and delete (comment out) the lines of
-code where it is used (only very few of them). For unit testing we rely on the original package anyway.
+All this can be done by using a [copy tool](./_copy_tool). The tool automatically copies packages from
+`golang.org/x/tools/internal` into this repository. Usage:
+
+- `cd` into `./_copy_tool` directory, and build the tool by executing `go build -o ../cptool`. Note that the executable
+  is stored in the root directory of this repository.
+- `cd` into the root directory of this repository and execute: `./cptool /path/to/golang.org/x/tools/internal` (change
+  the source path appropriately).
 
 # Why?
 

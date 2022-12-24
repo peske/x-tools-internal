@@ -16,6 +16,7 @@ import (
 
 	"github.com/peske/x-tools-internal/event/export/eventtest"
 	"github.com/peske/x-tools-internal/jsonrpc2"
+	"github.com/peske/x-tools-internal/stack/stacktest"
 )
 
 var logRPC = flag.Bool("logrpc", false, "Enable jsonrpc2 communication logging")
@@ -60,7 +61,7 @@ func (test *callTest) verifyResults(t *testing.T, results interface{}) {
 }
 
 func TestCall(t *testing.T) {
-	//stacktest.NoLeak(t)
+	stacktest.NoLeak(t)
 	ctx := eventtest.NewContext(context.Background(), t)
 	for _, headers := range []bool{false, true} {
 		name := "Plain"

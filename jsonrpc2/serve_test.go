@@ -10,10 +10,12 @@ import (
 	"sync"
 	"testing"
 	"time"
+
+	"github.com/peske/x-tools-internal/stack/stacktest"
 )
 
 func TestIdleTimeout(t *testing.T) {
-	//stacktest.NoLeak(t)
+	stacktest.NoLeak(t)
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 

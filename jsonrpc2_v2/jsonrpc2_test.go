@@ -14,6 +14,7 @@ import (
 
 	"github.com/peske/x-tools-internal/event/export/eventtest"
 	jsonrpc2 "github.com/peske/x-tools-internal/jsonrpc2_v2"
+	"github.com/peske/x-tools-internal/stack/stacktest"
 )
 
 var callTests = []invoker{
@@ -129,7 +130,7 @@ func TestConnectionHeader(t *testing.T) {
 }
 
 func testConnection(t *testing.T, framer jsonrpc2.Framer) {
-	//stacktest.NoLeak(t)
+	stacktest.NoLeak(t)
 	ctx := eventtest.NewContext(context.Background(), t)
 	listener, err := jsonrpc2.NetPipeListener(ctx)
 	if err != nil {
