@@ -21,7 +21,7 @@ func main() {
 		if err := os.RemoveAll(p); err != nil && !os.IsNotExist(err) {
 			log.Fatalln(err)
 		}
-		if err := utils.CopyDir(filepath.Join(src, p), p, nil, nil); err != nil {
+		if err := utils.CopyDir(filepath.Join(src, p), p, nil); err != nil {
 			log.Fatalln(err)
 		}
 	}

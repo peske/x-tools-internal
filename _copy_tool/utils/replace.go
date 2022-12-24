@@ -72,7 +72,7 @@ func CopyFile(src, dst string, replaceFn func(string) string) error {
 	return os.Chmod(dst, srcinfo.Mode())
 }
 
-func CopyDir(src string, dst string, replaceFn func(string) string, skipFileFn func(string) bool) error {
+func CopyDir(src string, dst string, replaceFn func(string) string) error {
 	var err error
 	var fds []os.DirEntry
 	var srcinfo os.FileInfo
@@ -93,10 +93,10 @@ func CopyDir(src string, dst string, replaceFn func(string) string, skipFileFn f
 		dstfp := path.Join(dst, fd.Name())
 
 		if fd.IsDir() {
-			if err = CopyDir(srcfp, dstfp, replaceFn, skipFileFn); err != nil {
+			if err = CopyDir(srcfp, dstfp, replaceFn); err != nil {
 				fmt.Println(err)
 			}
-		} else if skipFileFn == nil || !skipFileFn(fd.Name()) {
+		} else {
 			if err = CopyFile(srcfp, dstfp, replaceFn); err != nil {
 				fmt.Println(err)
 			}
