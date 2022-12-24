@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path"
 	"strings"
@@ -31,6 +32,18 @@ func Replace(content string) string {
 			"\"github.com/peske/x-tools-internal/"+p, -1)
 	}
 	return content
+}
+
+func EnsureDir(dir string) {
+	if s, err := os.Stat(dir); err != nil {
+		if os.IsNotExist(err) {
+			log.Fatalf("'%s' does not exist", dir)
+		} else {
+			log.Fatal(err)
+		}
+	} else if !s.IsDir() {
+		log.Fatalf("'%s' is not a directory", dir)
+	}
 }
 
 func CopyFile(src, dst string) error {
