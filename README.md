@@ -26,7 +26,7 @@ All this can be done by using a [copy tool](./_copy_tool). The tool automaticall
 
 The original packages are used in some other `golang.org/x/tools` packages that we want to rewrite, but we cannot use
 them directly because they are `internal`. For example, these packages are used in
-[peske/lsp package](https://github.com/peske/lsp).
+[peske/lsp-srv package](https://github.com/peske/lsp-srv).
 
 # License?
 

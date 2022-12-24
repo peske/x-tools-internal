@@ -2,29 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/peske/x-tools-internal/_copy_tool/utils"
 	"log"
 	"os"
 	"path"
 	"path/filepath"
-	"strings"
 )
-
-var packages = []string{
-	"bug",
-	"diff",
-	"event",
-	"fakenet",
-	"fuzzy",
-	"gocommand",
-	"goroot",
-	"jsonrpc2",
-	"jsonrpc2_v2",
-	"memoize",
-	"persistent",
-	"stack",
-	"testenv",
-	"xcontext",
-}
 
 func main() {
 	if len(os.Args) != 2 {
@@ -32,11 +15,11 @@ func main() {
 	}
 	src := os.Args[1]
 	ensureDir(src)
-	for _, p := range packages {
+	for _, p := range utils.Packages {
 		ensureDir(p)
 		ensureDir(filepath.Join(src, p))
 	}
-	for _, p := range packages {
+	for _, p := range utils.Packages {
 		if err := os.RemoveAll(p); err != nil && !os.IsNotExist(err) {
 			log.Fatalln(err)
 		}
@@ -69,10 +52,7 @@ func copyFile(src, dst string) error {
 		return err
 	}
 
-	str := string(c)
-	for _, p := range packages {
-		str = strings.Replace(str, "\"golang.org/x/tools/internal/"+p, "\"github.com/peske/x-tools-internal/"+p, -1)
-	}
+	str := utils.Replace(string(c))
 
 	err = os.WriteFile(dst, []byte(str), 0700)
 	if err != nil {
