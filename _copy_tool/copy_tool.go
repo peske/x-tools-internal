@@ -1,8 +1,7 @@
-package utils
+package _copy_tool
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"path"
 	"strings"
@@ -25,58 +24,48 @@ var Packages = []string{
 	"xcontext",
 }
 
-func Replace(fp, content string) string {
+func CheckDirectoryExists(dir string) error {
+	if s, err := os.Stat(dir); err != nil {
+		return err
+	} else if !s.IsDir() {
+		return fmt.Errorf("'%s' is not a directory", dir)
+	}
+	return nil
+}
+
+func replace(fp string, content []byte) []byte {
 	if strings.HasSuffix(strings.ToLower(fp), ".md") {
 		// We don't want to replace in Markdown files
 		return content
 	}
+	str := string(content)
 	for _, p := range Packages {
-		content = strings.Replace(content,
+		str = strings.Replace(str,
 			"\"golang.org/x/tools/internal/"+p,
 			"\"github.com/peske/x-tools-internal/"+p, -1)
 	}
-	return content
+	return []byte(str)
 }
 
-func EnsureDir(dir string) {
-	if s, err := os.Stat(dir); err != nil {
-		if os.IsNotExist(err) {
-			log.Fatalf("'%s' does not exist", dir)
-		} else {
-			log.Fatal(err)
-		}
-	} else if !s.IsDir() {
-		log.Fatalf("'%s' is not a directory", dir)
-	}
-}
-
-func CopyFile(src, dst string, replaceFn func(string, string) string) error {
-	var err error
-	var srcinfo os.FileInfo
-
-	c, err := os.ReadFile(src)
+func copyFile(src, dst string, replaceFn func(string, []byte) []byte) error {
+	srcinfo, err := os.Stat(src)
 	if err != nil {
 		return err
 	}
-
-	if replaceFn == nil {
-		replaceFn = Replace
-	}
-
-	str := replaceFn(dst, string(c))
-
-	err = os.WriteFile(dst, []byte(str), 0700)
-	if err != nil {
+	var content []byte
+	if content, err = os.ReadFile(src); err != nil {
 		return err
 	}
 
-	if srcinfo, err = os.Stat(src); err != nil {
-		return err
+	content = replace(dst, content)
+	if replaceFn != nil {
+		content = replaceFn(dst, content)
 	}
-	return os.Chmod(dst, srcinfo.Mode())
+
+	return os.WriteFile(dst, content, srcinfo.Mode())
 }
 
-func CopyDir(src string, dst string, replaceFn func(string, string) string) error {
+func CopyDir(src string, dst string, replaceFn func(string, []byte) []byte) error {
 	var err error
 	var fds []os.DirEntry
 	var srcinfo os.FileInfo
@@ -98,11 +87,11 @@ func CopyDir(src string, dst string, replaceFn func(string, string) string) erro
 
 		if fd.IsDir() {
 			if err = CopyDir(srcfp, dstfp, replaceFn); err != nil {
-				fmt.Println(err)
+				return err
 			}
 		} else {
-			if err = CopyFile(srcfp, dstfp, replaceFn); err != nil {
-				fmt.Println(err)
+			if err = copyFile(srcfp, dstfp, replaceFn); err != nil {
+				return err
 			}
 		}
 	}
