@@ -33,9 +33,12 @@ the following way:
 The CLI argument provided represents the local path of `golang.org/x/tools` module. The argument is optional, and if not
 provided it will default to `$GOHOME/src/golang.org/x/tools`.
 
-The tool will also be invoked if you do `go generate`, since [`main.go`](./main.go) file contains the following line:
+Assuming that the source module is located at its default location (`$GOHOME/src/golang.org/x/tools`), previous two
+steps can be replaced by simply executing `go generate`, since the [`main.go`](./main.go) file contains the following
+lines:
 
 ```go
+//go:generate go build .
 //go:generate ./x-tools-internal
 ```
 

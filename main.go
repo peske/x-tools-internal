@@ -66,4 +66,5 @@ func checkSourceValidity(src string) error {
 	return nil
 }
 
+//go:generate go build .
 //go:generate ./x-tools-internal
