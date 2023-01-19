@@ -33,7 +33,7 @@ func CheckDirectoryExists(dir string) error {
 	return nil
 }
 
-func replace(fp string, content []byte) []byte {
+func Replace(fp string, content []byte) []byte {
 	if strings.HasSuffix(strings.ToLower(fp), ".md") {
 		// We don't want to replace in Markdown files
 		return content
@@ -57,7 +57,7 @@ func copyFile(src, dst string, replaceFn func(string, []byte) []byte) error {
 		return err
 	}
 
-	content = replace(dst, content)
+	content = Replace(dst, content)
 	if replaceFn != nil {
 		content = replaceFn(dst, content)
 	}
