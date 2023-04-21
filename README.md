@@ -20,7 +20,6 @@ This is done automatically, by using _copy tool_. To use the tool you first need
 
 ```bash
 go build .
-go generate
 ```
 
 This will create `x-tools-internal` executable file in the working directory. After that you can use the copy tool in

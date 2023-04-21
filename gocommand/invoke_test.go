@@ -9,9 +9,12 @@ import (
 	"testing"
 
 	"github.com/peske/x-tools-internal/gocommand"
+	"github.com/peske/x-tools-internal/testenv"
 )
 
 func TestGoVersion(t *testing.T) {
+	testenv.NeedsTool(t, "go")
+
 	inv := gocommand.Invocation{
 		Verb: "version",
 	}

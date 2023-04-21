@@ -12,9 +12,12 @@ import (
 	"time"
 
 	"github.com/peske/x-tools-internal/stack/stacktest"
+	"github.com/peske/x-tools-internal/testenv"
 )
 
 func TestIdleTimeout(t *testing.T) {
+	testenv.NeedsLocalhostNet(t)
+
 	stacktest.NoLeak(t)
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
